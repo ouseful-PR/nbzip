@@ -5,7 +5,7 @@ import os
 import tarfile
 import zipfile
 import urllib.parse
-
+from zipfile import ZIP_DEFLATED
 
 class ZipStream(object):
     def __init__(self, handler):
@@ -27,7 +27,7 @@ def make_writer(fileobj, fmt):
     if fmt == 'tar.gz':
         return tarfile.open(fileobj=fileobj, mode='w:gz')
 
-    zip_file = zipfile.ZipFile(fileobj, mode='w')
+    zip_file = zipfile.ZipFile(fileobj, compression=ZIP_DEFLATED, mode='w')
     zip_file.add = zip_file.write  # Patch API to match that of tarfile
     return zip_file
 
